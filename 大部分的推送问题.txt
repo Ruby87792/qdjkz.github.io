@@ -1,0 +1,23 @@
+大部分问题都可以通过先pull跟新到本地，再上传到远程
+在命令控制符的C:\Users\24462\Desktop\jkz\Ruby87792.github.io>
+输入
+git pull origin master
+
+然后再上传就可以了
+git push origin master
+
+正常流程：
+git add bu/202404182/
+git commit -m "Add background.png to bu/202404182"
+git push origin master
+
+
+在进行手动操作后，去C:\Users\24462\Desktop\jkz\Ruby87792.github.io>
+输入
+git pull origin master
+如果出现
+Already up to date.（已经是最新的了）
+那就是没问题了，如果没有出现这个就操作到出现这个为止
+
+出现合并问题时，下面会有删除传入跟删除当前，点击删除当前，然后点最下面的完成合并
+
