@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Redirect</title>
+    <script>
+        function detectEnvironment() {
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            var isWeChat = /micromessenger/i.test(userAgent);
+
+            if (isWeChat) {
+                window.location.href = "https://xyhcx.xyz/hxwz/1357547050";
+            } else if (isAlipay) {
+                window.location.href = "https://xyhcx.xyz/hxwz/1240888035";
+            }
+            // else {
+            //     window.location.href = "https://xyhcx.xyz/hxwz/1240888035";
+            // }
+        }
+    </script>
+</head>
+
+<body onload="detectEnvironment()">
+    <p>Redirecting to the appropriate payment link...</p>
+</body>
+
+</html>
