@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>健康信息查询</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+
+        body {
+            width: 98%;
+            margin: 0 auto;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        .active {
+            background: #ccc;
+        }
+
+        .page_tab {
+            width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .page_tab li {
+            float: left;
+            width: 50%;
+            height: 45px;
+            line-height: 45px;
+            text-align: center;
+        }
+
+        .bk {
+            border-bottom: 1px solid #ccc;
+        }
+
+        #tab_1 {
+            padding-bottom: 30px;
+        }
+
+        #tab_2 {
+            padding-bottom: 30px;
+        }
+
+        .dbt {
+            width: 100%;
+            height: 45px;
+            line-height: 45px;
+        }
+
+        .dnr {
+            text-indent: 2em;
+            height: 95px;
+            line-height: 45px;
+        }
+
+        .nr .dbt {
+            text-indent: 2em;
+        }
+
+        .xbt {
+            overflow: hidden;
+            height: 45px;
+            line-height: 45px;
+        }
+
+        .xbt .bl {
+            width: 50%;
+            float: left;
+            text-indent: 2em;
+        }
+
+        .xbt .info {
+            width: 50%;
+            float: left;
+            text-indent: 2em;
+        }
+
+        .nr_x {
+            line-height: 30px;
+            overflow: hidden;
+            padding-left: 2em;
+            font-size: 14px
+        }
+
+        .nr_x .da {
+            text-indent: 2em;
+        }
+
+        #bg_img {
+            position: absolute;
+            top: 200px;
+            left: 50%;
+        }
+
+        img {
+            -webkit-touch-callout: none;
+            /* iOS Safari */
+            -webkit-user-select: none;
+            /* Chrome/Safari/Opera */
+            -khtml-user-select: none;
+            /* Konqueror */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+            /* Non-prefixed version, currently supported by Chrome and Opera */
+        }
+    </style>
+    <script>
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('touchstart', function (e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        document.addEventListener('gesturestart', function (e) {
+            e.preventDefault();
+        });
+    </script>
+</head>
+
+<body style="overflow: hidden;" oncontextmenu="return false;">
+    <img src="temp_card_17582.png" style="width:100%" ondragstart="return false;" oncontextmenu="return false;">
+    <img src='tempbg_b.jpg' style="width:100%" ondragstart="return false;" oncontextmenu="return false;">
+</body>
+
+</html>
