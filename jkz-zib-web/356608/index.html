@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>健康证明</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 10px;
+        }
+
+        /* 水印容器样式 */
+        .watermark-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .watermark {
+            position: absolute;
+            font-size: 14px;
+            color: rgba(204, 204, 204, 0.5);
+            transform: rotate(45deg);
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .health-certificate {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blue-header {
+            background: #0000FF;
+            height: 67px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            padding-top: -9px;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 15px 0;
+            font-size: 20px;
+        }
+
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background-image: url('pzhi/logo.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .info {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            padding: 0 10px;
+        }
+
+        @media (min-width: 480px) {
+            .info {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .info p {
+            margin: 8px 0;
+            line-height: 1.4;
+            font-size: 14px;
+        }
+
+        .info span {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .stamp {
+            position: absolute;
+            top: 47%;
+            right: 167px;
+            width: 100px;
+            height: 101px;
+            opacity: 0.6;
+            z-index: 2;
+        }
+
+        .photo {
+            position: absolute;
+            top: 80px;
+            right: 20px;
+            width: 80px;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .qrcode {
+            position: absolute;
+            top: 79px;
+            left: 42%;
+            transform: translateX(-50%);
+            width: 67px;
+            height: 70px;
+            object-fit: contain;
+            background: white;
+            padding: -40px;
+            border: -40px solid #ddd;
+        }
+
+        .platform-info {
+            grid-column: 1 / -1;
+            font-size: 13px;
+            margin-top: 10px;
+            word-break: break-all;
+        }
+
+        @media (max-width: 360px) {
+            .info p {
+                font-size: 13px;
+            }
+
+            .stamp {
+                width: 80px;
+                height: 80px;
+            }
+
+            .photo {
+                width: 70px;
+            }
+
+            .qrcode {
+                width: 70px;
+            }
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 8px 15px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+    </style>
+    <style type="text/css">
+        .wps_ai_link[data-v-5122f198] {
+            font-family: BlinkMacSystemFont, Microsoft YaHei, -apple-system, Source Han Sans CN, Inter, Helvetica Neue, Helvetica, Arial, sans-serif;
+            padding: 0;
+            min-width: unset;
+            min-height: unset;
+            position: fixed;
+            left: -100px;
+            top: -100px;
+            cursor: pointer;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 0;
+            height: 26px;
+            border: 1px solid #dae4e0;
+            background: #fff;
+            overflow: hidden;
+            margin-left: 12px;
+            transition: translateX(100%) .5s ease;
+            z-index: 2147483647
+        }
+
+        .wps_ai_link .wps_ai_link_title[data-v-5122f198] {
+            margin-left: 4px;
+            color: #5f6368;
+            text-align: center;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 16px
+        }
+
+        .wps_ai_link[data-v-5122f198]:hover {
+            background: #f0f0f0
+        }
+
+        .wps_ai_link[data-v-5122f198]:active {
+            background: #dadada
+        }
+
+        .dark_skin[data-v-5122f198] {
+            border: 1px solid hsla(0, 0%, 100%, .5);
+            background: #3a3b3e
+        }
+
+        .dark_skin .wps_ai_link_title[data-v-5122f198] {
+            color: #fff
+        }
+
+        .dark_skin[data-v-5122f198]:hover {
+            background: #2d2e31
+        }
+
+        .dark_skin[data-v-5122f198]:active {
+            background: #353639
+        }
+    </style>
+    <style type="text/css"></style>
+    <style type="text/css">
+        pre code.hljs {
+            display: block;
+            overflow-x: auto;
+            padding: 1em
+        }
+
+        code.hljs {
+            padding: 3px 5px
+        }
+
+        .hljs {
+            color: #24292e;
+            background: #fff
+        }
+
+        .hljs-doctag,
+        .hljs-keyword,
+        .hljs-meta .hljs-keyword,
+        .hljs-template-tag,
+        .hljs-template-variable,
+        .hljs-type,
+        .hljs-variable.language_ {
+            color: #d73a49
+        }
+
+        .hljs-title,
+        .hljs-title.class_,
+        .hljs-title.class_.inherited__,
+        .hljs-title.function_ {
+            color: #6f42c1
+        }
+
+        .hljs-attr,
+        .hljs-attribute,
+        .hljs-literal,
+        .hljs-meta,
+        .hljs-number,
+        .hljs-operator,
+        .hljs-selector-attr,
+        .hljs-selector-class,
+        .hljs-selector-id,
+        .hljs-variable {
+            color: #005cc5
+        }
+
+        .hljs-meta .hljs-string,
+        .hljs-regexp,
+        .hljs-string {
+            color: #032f62
+        }
+
+        .hljs-built_in,
+        .hljs-symbol {
+            color: #e36209
+        }
+
+        .hljs-code,
+        .hljs-comment,
+        .hljs-formula {
+            color: #6a737d
+        }
+
+        .hljs-name,
+        .hljs-quote,
+        .hljs-selector-pseudo,
+        .hljs-selector-tag {
+            color: #22863a
+        }
+
+        .hljs-subst {
+            color: #24292e
+        }
+
+        .hljs-section {
+            color: #005cc5;
+            font-weight: 700
+        }
+
+        .hljs-bullet {
+            color: #735c0f
+        }
+
+        .hljs-emphasis {
+            color: #24292e;
+            font-style: italic
+        }
+
+        .hljs-strong {
+            color: #24292e;
+            font-weight: 700
+        }
+
+        .hljs-addition {
+            color: #22863a;
+            background-color: #f0fff4
+        }
+
+        .hljs-deletion {
+            color: #b31d28;
+            background-color: #ffeef0
+        }
+    </style>
+    <style type="text/css">
+        .hljs-ln {
+            border-collapse: collapse
+        }
+
+        .hljs-ln-n:before {
+            content: attr(data-line-number)
+        }
+    </style>
+</head>
+
+<body>
+    <div class="watermark-container">
+        <div class="watermark"
+            style="left: 31.9944px; top: 22.767px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 259.844px; top: 77.9797px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 400.239px; top: 68.9849px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 603.675px; top: 81.6098px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 841.286px; top: 29.4167px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 43.4234px; top: 287.34px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 212.216px; top: 237.918px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 491.13px; top: 207.135px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 611.263px; top: 235.364px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 864.571px; top: 278.3px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 5.29874px; top: 465.456px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 230.268px; top: 455.994px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 447.523px; top: 424.907px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 610.534px; top: 447.3px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 869.469px; top: 405.085px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 90.9813px; top: 604.693px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 203.356px; top: 652.789px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 437.912px; top: 651.556px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 646.071px; top: 687.283px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+        <div class="watermark"
+            style="left: 854.103px; top: 633.349px; font-size: 14px; color: rgba(204, 204, 204, 0.5); transform: rotate(45deg);">
+            仅供查询健康证明</div>
+    </div>
+    <div class="container">
+        <div class="health-certificate">
+            <div class="blue-header"></div>
+            <div class="content">
+                <div class="logo"></div>
+                <h1>健康证明</h1>
+                <div class="info">
+                    <p><span>编号：</span>356608</p>
+                    <p><span>姓名：</span>张熙博</p>
+                    <p><span>性别：</span>男</p>
+                    <p><span>年龄：</span>19</p>
+                    <p><span>工种：</span>食品卫生</p>
+                    <p><span>健康检查结论：</span>合格</p>
+                    <p><span>发证日期：</span>2025-05-08</p>
+                    <p><span>有效期：</span>一年</p>
+
+                    <p class="platform-info"><span>健康检查平台：</span>榆林市疾病预防控制中心</p>
+
+                </div>
+                <img src="pzhi/gzz.png" alt="公章" class="stamp">
+                <img src="uploads/1746776723__20250509154458.jpg" alt="照片" class="photo">
+                <img src="qrcodes/500.png" alt="二维码" class="qrcode">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 创建水印函数
+        const createWatermarks = () => {
+            const container = document.querySelector('.watermark-container');
+            const text = '仅供查询健康证明';
+            const count = 20;
+            const angle = 45;
+            const fontSize = '14px';
+            const color = 'rgba(204, 204, 204, 0.5)';
+            const spacing = 200;
+
+            // 清空已有水印
+            container.innerHTML = '';
+
+            // 计算行列数
+            const cols = Math.ceil(Math.sqrt(count));
+            const rows = Math.ceil(count / cols);
+
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const index = row * cols + col;
+                    if (index >= count) break;
+
+                    // 计算位置（网格 + 随机偏移）
+                    const x = col * spacing + Math.random() * spacing / 2;
+                    const y = row * spacing + Math.random() * spacing / 2;
+
+                    // 创建水印元素
+                    const watermark = document.createElement('div');
+                    watermark.className = 'watermark';
+                    watermark.textContent = text;
+                    watermark.style.left = `${x}px`;
+                    watermark.style.top = `${y}px`;
+                    watermark.style.fontSize = fontSize;
+                    watermark.style.color = color;
+                    watermark.style.transform = `rotate(${angle}deg)`;
+                    container.appendChild(watermark);
+                }
+            }
+        };
+
+        // 初始化水印
+        window.onload = createWatermarks;
+
+        // 窗口尺寸变化时重新生成水印
+        window.onresize = createWatermarks;
+    </script>
+
+
+
+    <div data-v-5122f198="" class="wps_ai_link" style="display: none;"><svg data-v-5122f198="" width="16" height="16"
+            viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path data-v-5122f198=""
+                d="M0 2C0 0.895431 0.895431 0 2 0H14C15.1046 0 16 0.895431 16 2V14C16 15.1046 15.1046 16 14 16H2C0.895431 16 0 15.1046 0 14V2Z"
+                fill="#1D70F5"></path>
+            <path data-v-5122f198="" d="M0 14H16C16 15.1046 15.1046 16 14 16H2C0.895431 16 0 15.1046 0 14Z"
+                fill="#0059E8"></path>
+            <path data-v-5122f198="" d="M8 14H16C16 15.1046 15.1046 16 14 16H8V14Z" fill="#3C87FF"></path>
+            <path data-v-5122f198=""
+                d="M3.34164 3H4.87711L5.88781 7.62035L7.21221 3.5H8.7878L10.1122 7.62035L11.1229 3H12.6584L10.9084 11H9.62293L8 5.95091L6.37708 11H5.09164L3.34164 3Z"
+                fill="white"></path>
+        </svg><!----><!----><span data-v-5122f198="" class="wps_ai_link_title">在线打开</span></div>
+</body>
+
+</html>
